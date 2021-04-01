@@ -24,6 +24,10 @@ $ rake db:create
 #### Crie as migrations utilizando o comando:
 $ rake db:migrate
 
+#### Rodar os testes da aplicação
+$ rspec spec
+
+
 #### Inicie o servidor utilizando o comando:
 $ rails s
 
