@@ -74,8 +74,18 @@ RSpec.describe "Projects", type: :request do
       it 'update the project ' do
         expect(project.reload).to have_attributes(project_attributes) 
       end
-
     end
     
+    context "when the project not exits" do
+      before(:each) {put "/projects/0", params: attributes_for(:project)}
+
+      it 'return status code 404' do
+        expect(response).to have_http_status(404) 
+      end
+
+      it 'return message error' do
+        expect(response.body).to match("{\"message\":\"Project not found\"}")
+      end
+    end
   end
 end
