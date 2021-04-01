@@ -1,7 +1,6 @@
 class TasksController < ApplicationController
 
     def index
-        #tasks = Task.all
         tasks = ServiceTask.get_all_tasks
         if tasks
             render json: tasks, status: :ok
@@ -9,7 +8,7 @@ class TasksController < ApplicationController
     end
 
     def show
-        #task = Task.find_by(id: params[:id])
+
         task = ServiceTask.get_task_pk(params[:id])
 
         if task
@@ -31,14 +30,10 @@ class TasksController < ApplicationController
 
 
     def update
-        #task = Task.find_by(id: params[:id])
-
-
+        
         task = ServiceTask.update_task(id: params[:id], task: tasks_params)
 
-
         if task
-            #task.update(tasks_params)
             render json: task, status: :ok
         else
             render json: {message: 'Task not found'}, status: :not_found
@@ -46,12 +41,9 @@ class TasksController < ApplicationController
     end
 
     def destroy
-        #task = Task.find_by(id: params[:id])
-
         task = ServiceTask.delete_task(params[:id])
 
         if task
-            #task.destroy
             render json: {message: "Task deleted with success"}, status: :ok
 
         else
