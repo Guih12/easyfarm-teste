@@ -38,6 +38,8 @@ class ProjectsController < ApplicationController
         if project
             project.update(name: params[:name])
             render json: project, status: :ok
+        else
+            render json: {message: 'Project not found'}, status: :not_found
         end
     end
 end
