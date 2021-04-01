@@ -95,5 +95,32 @@ RSpec.describe "Tasks", type: :request do
     
   end
   
+  describe "DELETE/tasks/:id" do
+    context "return the task exist " do
+      let(:task) {create(:task)}
+      before(:each) {delete "/tasks/#{task.id}"}
 
+      it 'retuns status code 200' do
+        expect(response).to have_http_status(200)  
+      end
+
+      it 'retuns message success' do
+        expect(response.body).to match("{\"message\":\"Task deleted with success\"}") 
+      end
+  end
+
+  context "the task not exists" do
+    before(:each) {delete "/tasks/0"}
+
+    it 'retuns status code 404' do
+      expect(response).to have_http_status(404) 
+    end
+
+    it 'returns message error' do
+      expect(response.body).to match("{\"message\":\"Task not found\"}") 
+    end
+  end
+  
+end
+  
 end
