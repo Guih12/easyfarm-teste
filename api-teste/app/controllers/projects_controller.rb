@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
     def index
-        projects = Project.all
+        projects = ServiceProject.get_all_projects
 
         if projects
          render json: projects, status: :ok
@@ -11,32 +11,30 @@ class ProjectsController < ApplicationController
 
 
     def show
-        project = Project.find_by(id: params[:id])
 
+        project = ServiceProject.get_pk_project(params[:id])
         if project
-         render json: project, status: :ok
+            render json: project, status: :ok
 
         else
-        render json: {message: 'Project not found'}, status: :not_found
+            render json: {message: 'Project not found'}, status: :not_found
         end
     end
 
     def store
-        project = Project.new(name: params[:name])
-
-        if project.save
-          render json: project, status: :created
+        project = ServiceProject.new(name: params[:name]).create_project
+        if project
+            render json: project, status: :created
         else
-          render json: {message: 'Error in create project'}, status: :unprocessable_entity
+             render json: {message: 'Error in create project'}, status: :unprocessable_entity
         end
     end
 
 
     def update
-        project = Project.find_by(id: params[:id])
 
+        project = ServiceProject.update_project(id: params[:id], name: params[:name])
         if project
-            project.update(name: params[:name])
             render json: project, status: :ok
         else
             render json: {message: 'Project not found'}, status: :not_found
@@ -44,12 +42,10 @@ class ProjectsController < ApplicationController
     end
 
     def destroy
-        project = Project.find_by(id: params[:id])
-        
-        if project
-            project.destroy
-            render json: {message: "Project deleted with success"}, status: :ok
 
+        project = ServiceProject.delete_project(params[:id])
+        if project
+            render json: {message: "Project deleted with success"}, status: :ok
         else
             render json: {message: "Project not found"}, status: :not_found
         end
