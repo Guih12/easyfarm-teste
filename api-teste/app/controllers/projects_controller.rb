@@ -42,4 +42,16 @@ class ProjectsController < ApplicationController
             render json: {message: 'Project not found'}, status: :not_found
         end
     end
+
+    def destroy
+        project = Project.find_by(id: params[:id])
+        
+        if project
+            project.destroy
+            render json: {message: "Project deleted with success"}, status: :ok
+
+        else
+            render json: {message: "Project not found"}, status: :not_found
+        end
+    end
 end
