@@ -41,6 +41,18 @@ class TasksController < ApplicationController
         end
     end
 
+    def destroy
+        task = Task.find_by(id: params[:id])
+
+        if task
+            task.destroy
+            render json: {message: "Task deleted with success"}, status: :ok
+
+        else
+            render json: {message: "Project not found"}, status: :not_found
+        end
+    end
+
     private
 
     def tasks_params
