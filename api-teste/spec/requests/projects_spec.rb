@@ -88,4 +88,35 @@ RSpec.describe "Projects", type: :request do
       end
     end
   end
+
+  describe "DELETE/projects" do
+    context "return the project exist " do
+      let(:project) {create(:project)}
+      before(:each) {delete "/projects/#{project.id}"}
+
+      it 'retuns status code 204' do
+        expect(response).to have_http_status(200)  
+      end
+
+      it 'retuns message success' do
+        expect(response.body).to match("{\"message\":\"Project deleted with success\"}") 
+      end
+
+      it 'delete the project' do
+        expect {project.reload}.to raise_error ActiveRecord::RecordNotFound 
+      end
+    end
+    context "when the project not exist" do
+      before(:each) {delete "/projects/0"}
+
+      it 'return status code 404' do
+        expect(response).to have_http_status(404) 
+      end
+
+      it 'return message error' do
+        expect(response.body).to match("{\"message\":\"Project not found\"}") 
+      end
+    end
+  end
+  
 end
