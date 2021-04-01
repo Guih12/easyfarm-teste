@@ -28,4 +28,4 @@ $ rake db:migrate
 $ rails s
 
 ### Endpoints da aplicação
-<img src="./code.png" width="350" title="endpoints">
+<img src="./code.png" width="550" title="endpoints">
